@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopNow – Amazon Replica</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <a href="index.html"><span class="logo-shop">Shop</span><span class="logo-now">Now</span></a>
+  </div>
+
+  <div class="nav-location">
+    <i class="fa fa-location-dot"></i>
+    <div>
+      <span class="deliver-to">Deliver to</span>
+      <span class="location-name">India</span>
+    </div>
+  </div>
+
+  <div class="nav-search">
+    <select class="search-category" id="searchCategory">
+      <option value="all">All</option>
+      <option value="electronics">Electronics</option>
+      <option value="fashion">Fashion</option>
+      <option value="books">Books</option>
+      <option value="home">Home</option>
+    </select>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search products..."/>
+    <button class="search-btn" onclick="searchProducts()"><i class="fa fa-search"></i></button>
+  </div>
+
+  <div class="nav-right">
+    <div class="nav-language"><i class="fa fa-globe"></i> EN</div>
+
+    <div class="nav-account" id="navAccount">
+      <a href="login.html" id="signinLink">
+        <span class="nav-line1">Hello, sign in</span>
+        <span class="nav-line2">Account &amp; Lists <i class="fa fa-caret-down"></i></span>
+      </a>
+      <div class="account-dropdown" id="accountDropdown">
+        <a href="login.html" class="dropdown-btn" id="dropSignIn">Sign In</a>
+        <p class="dropdown-new">New customer? <a href="register.html">Start here</a></p>
+        <hr/>
+        <a href="#" onclick="signOut()">Sign Out</a>
+      </div>
+    </div>
+
+    <div class="nav-returns">
+      <span class="nav-line1">Returns</span>
+      <span class="nav-line2">&amp; Orders</span>
+    </div>
+
+    <div class="nav-cart" onclick="window.location='cart.html'">
+      <i class="fa fa-shopping-cart"></i>
+      <span class="cart-count" id="cartCount">0</span>
+      <span class="cart-label">Cart</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Sub-nav -->
+<div class="sub-nav">
+  <a href="#"><i class="fa fa-bars"></i> All</a>
+  <a href="#">Today's Deals</a>
+  <a href="#">Customer Service</a>
+  <a href="#">Registry</a>
+  <a href="#">Gift Cards</a>
+  <a href="#">Electronics</a>
+  <a href="#">Fashion</a>
+  <a href="#">Home & Kitchen</a>
+  <a href="#">Books</a>
+</div>
+
+<!-- ── HERO BANNER ── -->
+<div class="hero-banner">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background: linear-gradient(135deg,#131921,#232f3e);">
+      <div class="hero-content">
+        <h1>Up to 60% Off</h1>
+        <p>Electronics Sale — Limited time deals</p>
+        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg,#1a5276,#2980b9);">
+      <div class="hero-content">
+        <h1>New Arrivals</h1>
+        <p>Fashion, Home & More — Fresh picks daily</p>
+        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore</button>
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg,#1e8449,#27ae60);">
+      <div class="hero-content">
+        <h1>Free Delivery</h1>
+        <p>On orders above ₹499 — Prime members get more</p>
+        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Join Prime</button>
+      </div>
+    </div>
+  </div>
+  <button class="hero-prev" onclick="changeSlide(-1)">&#10094;</button>
+  <button class="hero-next" onclick="changeSlide(1)">&#10095;</button>
+  <div class="hero-dots" id="heroDots"></div>
+</div>
+
+<!-- ── CATEGORY STRIP ── -->
+<section class="categories">
+  <div class="container">
+    <div class="category-grid">
+      <div class="cat-card" onclick="filterCategory('electronics')">
+        <i class="fa fa-laptop"></i><span>Electronics</span>
+      </div>
+      <div class="cat-card" onclick="filterCategory('fashion')">
+        <i class="fa fa-shirt"></i><span>Fashion</span>
+      </div>
+      <div class="cat-card" onclick="filterCategory('home')">
+        <i class="fa fa-house"></i><span>Home & Kitchen</span>
+      </div>
+      <div class="cat-card" onclick="filterCategory('books')">
+        <i class="fa fa-book"></i><span>Books</span>
+      </div>
+      <div class="cat-card" onclick="filterCategory('sports')">
+        <i class="fa fa-dumbbell"></i><span>Sports</span>
+      </div>
+      <div class="cat-card" onclick="filterCategory('all')">
+        <i class="fa fa-th"></i><span>All Products</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTS ── -->
+<section class="products-section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="sectionTitle">Featured Products</h2>
+      <div class="filter-sort">
+        <select id="sortSelect" onchange="sortProducts()">
+          <option value="default">Sort: Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Avg. Rating</option>
+        </select>
+      </div>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-top">
+    <a href="#">Back to top</a>
+  </div>
+  <div class="footer-links container">
+    <div>
+      <h4>Get to Know Us</h4>
+      <a href="#">Careers</a><a href="#">Blog</a><a href="#">About Us</a>
+    </div>
+    <div>
+      <h4>Make Money with Us</h4>
+      <a href="#">Sell products</a><a href="#">Become Affiliate</a>
+    </div>
+    <div>
+      <h4>Let Us Help You</h4>
+      <a href="#">Your Account</a><a href="#">Returns</a><a href="#">Help</a>
+    </div>
+    <div>
+      <h4>Connect with Us</h4>
+      <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+      <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ShopNow – Amazon Replica Project | Built by Maddisetty Bhagya Sri</p>
+  </div>
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
